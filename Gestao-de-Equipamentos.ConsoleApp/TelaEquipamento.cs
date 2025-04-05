@@ -17,7 +17,7 @@ class TelaEquipamento
         Console.WriteLine("4 - Visualização de Equipamentos");
         Console.WriteLine("--------------------------------------------");
 
-        Console.Write("Digite um opção válida: ");
+        Console.Write("Digite um opção: ");
         string opcaoEscolhida = Console.ReadLine();
 
         return opcaoEscolhida;
@@ -29,7 +29,6 @@ class TelaEquipamento
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("       Gestão de Equipamentos");
         Console.WriteLine("--------------------------------------------");
-
         Console.WriteLine("      Cadastrando Equipamento...");
         Console.WriteLine("--------------------------------------------");
 
@@ -41,16 +40,20 @@ class TelaEquipamento
         Console.Write("Digite o nome do fabricante do equipamento: ");
         string fabricante = Console.ReadLine();
 
-        Console.Write("Digite o preço de aquisição R$ ");
+        Console.Write("Digite o preço de aquisição: R$ ");
         decimal precoAquisicao = Convert.ToDecimal(Console.ReadLine());
 
-        Console.Write("Digite a data de fabricação do equipamento (dd/MM/yyyy) ");
+        Console.Write("Digite a data de fabricação do equipamento (dd/MM/yyyy): ");
         DateTime dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
         novoEquipamento.iD = GeradorIds.GerarIdEquipamento();
 
         equipamentos[contadorEquipamentos++] = novoEquipamento;
+        Console.WriteLine("Equipamento registrado!");
+
+        Console.Write("pressione enter para continuar");
+        Console.ReadLine();
     }
 
     public void EditarEquipamento()
@@ -59,7 +62,6 @@ class TelaEquipamento
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("        Gestão de Equipamentos");
         Console.WriteLine("--------------------------------------------");
-
         Console.WriteLine("        Editando Equipamento...");
         Console.WriteLine("--------------------------------------------");
 
@@ -67,8 +69,6 @@ class TelaEquipamento
 
         Console.Write("Digite o ID do registro que deseja selecionar: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine());
-
-        Console.WriteLine();
 
         Console.Write("Digite o nome do equipamento: ");
         string nome = Console.ReadLine();
@@ -109,6 +109,9 @@ class TelaEquipamento
 
         Console.WriteLine();
         Console.WriteLine("O equipamento foi editado com sucesso!");
+
+        Console.Write("pressione enter para continuar");
+        Console.ReadLine();
     }
 
     public void ExcluirEquipamento()
@@ -117,7 +120,6 @@ class TelaEquipamento
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("          Gestão de Equipamentos");
         Console.WriteLine("--------------------------------------------");
-
         Console.WriteLine("         Excluindo Equipamento...");
         Console.WriteLine("--------------------------------------------");
 
@@ -147,6 +149,9 @@ class TelaEquipamento
 
         Console.WriteLine();
         Console.WriteLine("O equipamento foi excluído com sucesso!");
+
+        Console.Write("pressione enter para continuar");
+        Console.ReadLine();
     }
 
     public void VisualizarEquipamentos(bool exibirTitulo)
@@ -157,7 +162,6 @@ class TelaEquipamento
             Console.WriteLine("--------------------------------------------");
             Console.WriteLine("        Gestão de Equipamentos");
             Console.WriteLine("--------------------------------------------");
-
             Console.WriteLine("      Visualizando Equipamentos...");
             Console.WriteLine("--------------------------------------------");
         }
@@ -181,6 +185,7 @@ class TelaEquipamento
             );
         }
 
-        Console.WriteLine();
+        Console.Write("pressione enter para continuar");
+        Console.ReadLine();
     }
 }
