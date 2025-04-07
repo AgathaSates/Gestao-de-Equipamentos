@@ -1,4 +1,4 @@
-﻿namespace Gestao_de_Equipamentos.ConsoleApp;
+﻿namespace Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
 
 class GeradorIds
 {

@@ -1,4 +1,6 @@
-﻿namespace Gestao_de_Equipamentos.ConsoleApp;
+﻿using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
+
+namespace Gestao_de_Equipamentos.ConsoleApp.ModuloChamado;
 class Chamado
 {
     public int iD;
@@ -12,6 +14,6 @@ class Chamado
         this.titulo = titulo;
         this.descricao = descricao;
         this.equipamento = equipamento;
-        this.dataAbertura = DateTime.Now;
+        dataAbertura = DateTime.Now;
     }
 }

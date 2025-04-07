@@ -1,4 +1,4 @@
-﻿namespace Gestao_de_Equipamentos.ConsoleApp;
+﻿namespace Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
 
 public static class TelaMenu
 {
