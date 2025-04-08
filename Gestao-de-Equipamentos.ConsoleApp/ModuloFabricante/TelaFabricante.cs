@@ -133,6 +133,7 @@ namespace Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante
                 Console.WriteLine("--------------------------------------------");
                 Console.WriteLine();
             }
+
             Console.WriteLine(
             "{0, -10} | {1, -15} | {2, -20} | {3, -15} | {4, -15} |",
             "Id", "Nome", "E-mail", "Telefone", "Qts de Equipamentos");
@@ -141,11 +142,11 @@ namespace Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante
 
             Equipamento[] equipamentos = repositorioEquipamento.SelecionarEquipamentos();
 
-            int quantidadeEquipamentos = 0;
-
             for (int i = 0; i < fabricantescadastrados.Length; i++)
             {
                 if (fabricantescadastrados[i] == null) continue;
+
+                int quantidadeEquipamentos = 0;
 
                 for (int j = 0; j < equipamentos.Length; j++)
                 {
@@ -154,20 +155,15 @@ namespace Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante
                         quantidadeEquipamentos++;
                     }
                 }
-            }
-
-            for (int k = 0; k < fabricantescadastrados.Length; k++)
-            {
-                if (fabricantescadastrados[k] == null) continue;
-
                 Console.WriteLine(
                     "{0, -10} | {1, -15} | {2, -20} | {3, -15} | {4, -15} |",
-                    fabricantescadastrados[k].id,
-                    fabricantescadastrados[k].nome,
-                    fabricantescadastrados[k].email,
-                    fabricantescadastrados[k].telefone,
+                    fabricantescadastrados[i].id,
+                    fabricantescadastrados[i].nome,
+                    fabricantescadastrados[i].email,
+                    fabricantescadastrados[i].telefone,
                     quantidadeEquipamentos);
             }
+
             Console.Write("pressione enter para continuar");
             Console.ReadLine();
         }
