@@ -9,10 +9,10 @@ class TelaEquipamento
     public RepositorioFabricante repositorioFabricante;
     public RepositorioEquipamento repositorioEquipamento;
 
-    public TelaEquipamento(RepositorioFabricante repositorioFabricante)
-    {
-        repositorioEquipamento = new RepositorioEquipamento();
+    public TelaEquipamento(RepositorioFabricante repositorioFabricante, RepositorioEquipamento repositorioEquipamento)
+    { 
         this.repositorioFabricante = repositorioFabricante;
+        this.repositorioEquipamento = repositorioEquipamento;
     }
 
     public string ApresentarMenu()
@@ -48,7 +48,7 @@ class TelaEquipamento
         Console.Write("pressione enter para continuar");
         Console.ReadLine();
     }
- 
+
 
     public void EditarEquipamento()
     {
@@ -148,13 +148,13 @@ class TelaEquipamento
         Console.ReadLine();
     }
 
-    public void VisualizarFabricantes() 
+    public void VisualizarFabricantes()
     {
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("       Visualizando Fabricantes...");
         Console.WriteLine("--------------------------------------------");
 
-        Console.WriteLine("{0, -10} | {1, -15} |","Id", "Nome");
+        Console.WriteLine("{0, -10} | {1, -15} |", "Id", "Nome");
 
         Fabricante[] fabricantesCadastrados = repositorioFabricante.SelecionarFabricantes();
 
@@ -183,7 +183,7 @@ class TelaEquipamento
         Console.Write("Digite a data de fabricação do equipamento (dd/MM/yyyy): ");
         DateTime dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
-        Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);;
+        Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao); ;
 
         return novoEquipamento;
     }

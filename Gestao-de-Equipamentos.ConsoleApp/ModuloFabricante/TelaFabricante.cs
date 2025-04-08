@@ -1,12 +1,16 @@
-﻿namespace Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante
+﻿using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
+
+namespace Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante
 {
     class TelaFabricante
     {
         public RepositorioFabricante repositorioFabricante;
+        public RepositorioEquipamento repositorioEquipamento;
 
-        public TelaFabricante()
+        public TelaFabricante(RepositorioFabricante repositorioFabricante, RepositorioEquipamento repositorioEquipamento)
         {
-            repositorioFabricante = new RepositorioFabricante();
+            this.repositorioFabricante = repositorioFabricante;
+            this.repositorioEquipamento = repositorioEquipamento;
         }
 
         public string ApresentarMenu()
@@ -130,26 +134,43 @@
                 Console.WriteLine();
             }
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -20} | {3, -15} |",
-            "Id", "Nome", "E-mail", "Telefone");
-       
+            "{0, -10} | {1, -15} | {2, -20} | {3, -15} | {4, -15} |",
+            "Id", "Nome", "E-mail", "Telefone", "Qts de Equipamentos");
+
             Fabricante[] fabricantescadastrados = repositorioFabricante.SelecionarFabricantes();
+
+            Equipamento[] equipamentos = repositorioEquipamento.SelecionarEquipamentos();
+
+            int quantidadeEquipamentos = 0;
 
             for (int i = 0; i < fabricantescadastrados.Length; i++)
             {
                 if (fabricantescadastrados[i] == null) continue;
 
-                Console.WriteLine(
-                    "{0, -10} | {1, -15} | {2, -20} | {3, -15} |",
-                    fabricantescadastrados[i].id,
-                    fabricantescadastrados[i].nome,
-                    fabricantescadastrados[i].email,
-                    fabricantescadastrados[i].telefone);
+                for (int j = 0; j < equipamentos.Length; j++)
+                {
+                    if (equipamentos[j] != null && equipamentos[j].Fabricante.id == fabricantescadastrados[i].id)
+                    {
+                        quantidadeEquipamentos++;
+                    }
+                }
             }
 
+            for (int k = 0; k < fabricantescadastrados.Length; k++)
+            {
+                if (fabricantescadastrados[k] == null) continue;
 
+                Console.WriteLine(
+                    "{0, -10} | {1, -15} | {2, -20} | {3, -15} | {4, -15} |",
+                    fabricantescadastrados[k].id,
+                    fabricantescadastrados[k].nome,
+                    fabricantescadastrados[k].email,
+                    fabricantescadastrados[k].telefone,
+                    quantidadeEquipamentos);
+            }
             Console.Write("pressione enter para continuar");
             Console.ReadLine();
         }
     }
 }
+
