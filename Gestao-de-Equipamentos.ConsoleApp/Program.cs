@@ -1,5 +1,6 @@
 ﻿using Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
 using Gestao_de_Equipamentos.ConsoleApp.ModuloChamado;
+using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
 
 namespace Gestao_de_Equipamentos.ConsoleApp
 {
@@ -8,17 +9,18 @@ namespace Gestao_de_Equipamentos.ConsoleApp
         static void Main(string[] args)
         {
             TelaEquipamento telaEquipamento = new TelaEquipamento();
-            TelaChamado telaChamado = new TelaChamado();
+            RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
+            TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
 
             while (true)
             {
                 TelaMenu.ApresentarMenu();
-                string opcaoescolhida = Console.ReadLine();
+                string opcaoescolhida = Console.ReadLine()!;
                 switch (opcaoescolhida)
                 {
                     case "1": MenuEquipamentos(telaEquipamento); break;
 
-                    case "2": MenuChamados(telaChamado,telaEquipamento); break;
+                    case "2": MenuChamados(telaChamado); break;
                     default:
                         Console.WriteLine("Saindo do programa...");
                         return;
@@ -27,26 +29,20 @@ namespace Gestao_de_Equipamentos.ConsoleApp
             }
         }
 
-        public static void MenuChamados(TelaChamado telaChamado, TelaEquipamento telaEquipamento)
+        public static void MenuChamados(TelaChamado telaChamado)
         {
             string opcaoEscolhida = telaChamado.ApresentarMenu();
             switch (opcaoEscolhida)
             {
-                case "1":
-                    telaChamado.CadastrarChamado(telaEquipamento);
-                    break;
-                case "2":
-                    telaChamado.EditarChamado(telaEquipamento);
-                    break;
-                case "3":
-                    telaChamado.ExcluirChamado();
-                    break;
-                case "4":
-                    telaChamado.VisualizarChamados(true);
-                    break;
-                default:
-                    Console.WriteLine("Saindo do programa...");
-                    break;
+                case "1": telaChamado.CadastrarChamado(); break;
+
+                case "2": telaChamado.EditarChamado(); break;
+
+                case "3": telaChamado.ExcluirChamado(); break;
+
+                case "4": telaChamado.VisualizarChamados(true); break;
+
+                default: break;
             }
         }
 
@@ -56,25 +52,15 @@ namespace Gestao_de_Equipamentos.ConsoleApp
 
             switch (opcaoEscolhida)
             {
-                case "1":
-                    telaEquipamento.CadastrarEquipamento();
-                    break;
+                case "1": telaEquipamento.CadastrarEquipamento(); break;
 
-                case "2":
-                    telaEquipamento.EditarEquipamento();
-                    break;
+                case "2": telaEquipamento.EditarEquipamento(); break;
 
-                case "3":
-                    telaEquipamento.ExcluirEquipamento();
-                    break;
+                case "3": telaEquipamento.ExcluirEquipamento(); break;
 
-                case "4":
-                    telaEquipamento.VisualizarEquipamentos(true);
-                    break;
+                case "4": telaEquipamento.VisualizarEquipamentos(true);break;
 
-                default:
-                    Console.WriteLine("Saindo do programa...");
-                    break;
+                default: break;
             }
         }
     }

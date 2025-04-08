@@ -5,8 +5,14 @@ namespace Gestao_de_Equipamentos.ConsoleApp.ModuloChamado;
 
 class TelaChamado
 {
-    public Chamado[] chamados = new Chamado[100];
-    public int contadorChamados = 0;
+    public RepositorioEquipamento repositorioEquipamento;
+    public RepositorioChamado repositorioChamado;
+
+    public TelaChamado(RepositorioEquipamento repositorioEquipamento)
+    {
+        this.repositorioEquipamento = repositorioEquipamento;
+        repositorioChamado = new RepositorioChamado();
+    }
 
     public string ApresentarMenu()
     {
@@ -26,7 +32,7 @@ class TelaChamado
         return opcaoEscolhida;
     }
 
-    public void CadastrarChamado(TelaEquipamento telaequipamentos)
+    public void CadastrarChamado()
     {
         Console.Clear();
         Console.WriteLine("--------------------------------------------");
@@ -35,29 +41,8 @@ class TelaChamado
         Console.WriteLine("         Cadastrando chamado...");
         Console.WriteLine("--------------------------------------------");
 
-        Console.WriteLine();
-
-        Console.Write("Digite o titulo do chamado: ");
-        string titulo = Console.ReadLine();
-
-        Console.Write("Digite a descrição do chamado: ");
-        string descricao = Console.ReadLine();
-
-        Console.Write("Digite o iD do equipamento que deseja abrir o chamado: ");
-        int id = Convert.ToInt32(Console.ReadLine());
-
-        Equipamento equipamentoEncontrado = EquipamentoExiste(telaequipamentos, id);
-
-        if (equipamentoEncontrado != null)
-            Console.WriteLine("Chamado cadastrado com sucesso!");
-
-        else
-            Console.WriteLine("Equipamento não encontrado.");
-
-        Chamado novochamado = new Chamado(titulo, descricao, equipamentoEncontrado);
-        novochamado.iD = GeradorIds.GerarIdChamado();
-
-        chamados[contadorChamados++] = novochamado;
+        Chamado novoChamado = ObterDadosChamado();
+        repositorioChamado.CadastrarChamado(novoChamado);
 
         Console.Write("pressione enter para continuar");
         Console.ReadLine();
@@ -65,7 +50,7 @@ class TelaChamado
 
     
 
-    public void EditarChamado(TelaEquipamento telaequipamentos)
+    public void EditarChamado()
     {
         Console.Clear();
         Console.WriteLine("--------------------------------------------");
@@ -78,39 +63,18 @@ class TelaChamado
         Console.Write("Digite o iD do chamado que deseja editar: ");
         int id = Convert.ToInt32(Console.ReadLine());
 
-        Chamado chamadoEncontrado = null;
+        Chamado novoChamado = ObterDadosChamado();
 
-        for (int i = 0; i < chamados.Length; i++)
+        bool conseguiuEditar = repositorioChamado.EditarChamado(id, novoChamado);
+
+        if (!conseguiuEditar)
         {
-            if (chamados[i].iD == id)
-            {
-                chamadoEncontrado = chamados[i];
-                break;
-            }
+            Console.WriteLine("Houve um erro durante a edição de um registro...");
+            return;
         }
 
-        if (chamadoEncontrado != null)
-        {
-            Console.Write("Digite o novo título do chamado: ");
-            string novoTitulo = Console.ReadLine();
-
-            Console.Write("Digite a nova descrição do chamado: ");
-            string novaDescricao = Console.ReadLine();
-
-            Console.Write("Digite o iD do equipamento que deseja abrir o chamado: ");
-            id = Convert.ToInt32(Console.ReadLine());
-
-            Equipamento equipamentoEncontrado = EquipamentoExiste(telaequipamentos, id);
-            
-            chamadoEncontrado.titulo = novoTitulo;
-            chamadoEncontrado.descricao = novaDescricao;
-            chamadoEncontrado.equipamento = equipamentoEncontrado;
-
-            Console.WriteLine("Chamado editado com sucesso!");
-        }
-
-        else
-            Console.WriteLine("Chamado não encontrado.");
+        Console.WriteLine();
+        Console.WriteLine("O chamado foi editado com sucesso!");
 
         Console.Write("pressione enter para continuar");
         Console.ReadLine();
@@ -130,20 +94,7 @@ class TelaChamado
         Console.Write("Digite o ID do chamado que deseja excluir: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-        bool conseguiuExcluir = false;
-
-        for (int i = 0; i < chamados.Length; i++)
-        {
-            if (chamados[i] == null) continue;
-
-            else if (chamados[i].iD == idSelecionado)
-            {
-                chamados[i] = null;
-                Console.WriteLine("Chamado excluído com sucesso!");
-                conseguiuExcluir = true;
-                break;
-            }
-        }
+        bool conseguiuExcluir = repositorioChamado.ExcluirChamado(idSelecionado);
 
         if (!conseguiuExcluir)
         {
@@ -171,36 +122,74 @@ class TelaChamado
               "{0, -5} | {1, -15} | {2, -15} | {3, -11} | {4, -15} | ",
               "ID", "Título", "Equipamento", "Data de abertura", "Dias do chamado aberto"
           );
-        for (int i = 0; i < chamados.Length; i++)
+
+        Chamado[] chamadosCadastrados = repositorioChamado.SelecionarChamados();
+
+        for (int i = 0; i < chamadosCadastrados.Length; i++)
         {
-            if (chamados[i] == null) continue;
+            Chamado c = chamadosCadastrados[i];
+
+            if (c == null)
+                continue;
+
+            string tempoDecorrido = $"{c.ObterTempoDecorrido()} dia(s)";
 
             Console.WriteLine(
-                "{0, -5} | {1, -15} | {2, -15} | {3, -11} | {4, -15:F0} | ",
-                chamados[i].iD,
-                chamados[i].titulo,
-                chamados[i].equipamento.nome,
-                chamados[i].dataAbertura.ToString("dd/MM/yyyy"),
-                (DateTime.Now - chamados[i].dataAbertura).TotalDays
+                "{0, -6} | {1, -12} | {2, -15} | {3, -30} | {4, -15} | {5, -15}",
+                c.iD, c.dataAbertura.ToShortDateString(), c.titulo, c.descricao, c.equipamento.nome, tempoDecorrido
             );
+
+            Console.Write("pressione enter para continuar");
+            Console.ReadLine();
         }
-        Console.Write("pressione enter para continuar");
-        Console.ReadLine();
     }
 
-    public static Equipamento EquipamentoExiste(TelaEquipamento telaequipamentos, int id)
+    public void VisualizarEquipamentos()
     {
-        Equipamento equipamentoEncontrado = null;
+        Console.WriteLine("Visualizando Equipamentos...");
+        Console.WriteLine("--------------------------------------------");
 
-        foreach (Equipamento equipamento in telaequipamentos.equipamentos)
+        Console.WriteLine();
+
+        Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
+        );
+
+        Equipamento[] equipamentosCadastrados = repositorioEquipamento.SelecionarEquipamentos();
+
+        for (int i = 0; i < equipamentosCadastrados.Length; i++)
         {
-            if (equipamento != null && equipamento.iD == id)
-            {
-                equipamentoEncontrado = equipamento;
-                break;
-            }
+            Equipamento e = equipamentosCadastrados[i];
+
+            if (e == null) continue;
+
+            Console.WriteLine(
+                "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+                e.iD, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            );
         }
 
-        return equipamentoEncontrado;
+        Console.WriteLine();
+    }
+
+    public Chamado ObterDadosChamado()
+    {
+        Console.Write("Digite o título do chamado: ");
+        string titulo = Console.ReadLine()!.Trim();
+
+        Console.Write("Digite o descrição do chamado: ");
+        string descricao = Console.ReadLine()!.Trim();
+
+        VisualizarEquipamentos();
+
+        Console.Write("Digite o ID do equipamento que deseja selecionar: ");
+        int idEquipamento = Convert.ToInt32(Console.ReadLine()!.Trim());
+
+        Equipamento equipamentoSelecionado = repositorioEquipamento.SelecionarEquipamentoPorId(idEquipamento);
+
+        Chamado novoChamado = new Chamado(titulo, descricao, equipamentoSelecionado);
+
+        return novoChamado;
     }
 }

@@ -5,8 +5,13 @@ namespace Gestao_de_Equipamentos.ConsoleApp;
 
 class TelaEquipamento
 {
-    public Equipamento[] equipamentos = new Equipamento[100];
-    public int contadorEquipamentos = 0;
+  
+    public RepositorioEquipamento repositorioEquipamento;
+
+    public TelaEquipamento()
+    {
+        repositorioEquipamento = new RepositorioEquipamento();
+    }
 
     public string ApresentarMenu()
     {
@@ -21,7 +26,7 @@ class TelaEquipamento
         Console.WriteLine("--------------------------------------------");
 
         Console.Write("Digite um opção: ");
-        string opcaoEscolhida = Console.ReadLine();
+        string opcaoEscolhida = Console.ReadLine()!;
 
         return opcaoEscolhida;
     }
@@ -38,10 +43,10 @@ class TelaEquipamento
         Console.WriteLine();
 
         Console.Write("Digite o nome do equipamento: ");
-        string nome = Console.ReadLine();
+        string nome = Console.ReadLine()!;
 
         Console.Write("Digite o nome do fabricante do equipamento: ");
-        string fabricante = Console.ReadLine();
+        string fabricante = Console.ReadLine()!;
 
         Console.Write("Digite o preço de aquisição: R$ ");
         decimal precoAquisicao = Convert.ToDecimal(Console.ReadLine());
@@ -50,11 +55,10 @@ class TelaEquipamento
         DateTime dataFabricacao = Convert.ToDateTime(Console.ReadLine());
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
-        novoEquipamento.iD = GeradorIds.GerarIdEquipamento();
-
-        equipamentos[contadorEquipamentos++] = novoEquipamento;
-        Console.WriteLine("Equipamento registrado!");
-
+        
+      
+        repositorioEquipamento.CadastrarEquipamento(novoEquipamento);
+ 
         Console.Write("pressione enter para continuar");
         Console.ReadLine();
     }
@@ -74,10 +78,10 @@ class TelaEquipamento
         int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
         Console.Write("Digite o nome do equipamento: ");
-        string nome = Console.ReadLine();
+        string nome = Console.ReadLine()!;
 
         Console.Write("Digite o nome do fabricante equipamento: ");
-        string fabricante = Console.ReadLine();
+        string fabricante = Console.ReadLine()!;
 
         Console.Write("Digite o preço de aquisição R$ ");
         decimal precoAquisicao = Convert.ToDecimal(Console.ReadLine());
@@ -87,22 +91,8 @@ class TelaEquipamento
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
 
-        bool conseguiuEditar = false;
+        bool conseguiuEditar = repositorioEquipamento.EditarEquipamento(idSelecionado, novoEquipamento);
 
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            if (equipamentos[i] == null) continue;
-
-            else if (equipamentos[i].iD == idSelecionado)
-            {
-                equipamentos[i].nome = novoEquipamento.nome;
-                equipamentos[i].fabricante = novoEquipamento.fabricante;
-                equipamentos[i].precoAquisicao = novoEquipamento.precoAquisicao;
-                equipamentos[i].dataFabricacao = novoEquipamento.dataFabricacao;
-
-                conseguiuEditar = true;
-            }
-        }
 
         if (!conseguiuEditar)
         {
@@ -131,18 +121,7 @@ class TelaEquipamento
         Console.Write("Digite o ID do registro que deseja selecionar: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-        bool conseguiuExcluir = false;
-
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            if (equipamentos[i] == null) continue;
-
-            else if (equipamentos[i].iD == idSelecionado)
-            {
-                equipamentos[i] = null;
-                conseguiuExcluir = true;
-            }
-        }
+        bool conseguiuExcluir = repositorioEquipamento.ExcluirEquipamento(idSelecionado);
 
         if (!conseguiuExcluir)
         {
@@ -176,9 +155,11 @@ class TelaEquipamento
             "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
         );
 
-        for (int i = 0; i < equipamentos.Length; i++)
+        Equipamento[] equipamentosCadastrados = repositorioEquipamento.SelecionarEquipamentos();
+
+        for (int i = 0; i < equipamentosCadastrados.Length; i++)
         {
-            Equipamento e = equipamentos[i];
+            Equipamento e = equipamentosCadastrados[i];
 
             if (e == null) continue;
 
