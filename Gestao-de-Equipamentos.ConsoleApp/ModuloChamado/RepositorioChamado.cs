@@ -35,11 +35,6 @@ class RepositorioChamado
         return false;
     }
 
-    public Chamado[] SelecionarChamados()
-    {
-        return chamados;
-    }
-
     public bool ExcluirChamado(int idChamado)
     {
         for (int i = 0; i < chamados.Length; i++)
@@ -55,6 +50,11 @@ class RepositorioChamado
         }
 
         return false;
+    }
+
+    public Chamado[] SelecionarChamados()
+    {
+        return chamados;
     }
 }
 

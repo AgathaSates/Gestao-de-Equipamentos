@@ -1,5 +1,4 @@
-﻿using Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
-using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
+﻿using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
 
 namespace Gestao_de_Equipamentos.ConsoleApp.ModuloChamado;
 
@@ -166,7 +165,7 @@ class TelaChamado
 
             Console.WriteLine(
                 "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-                e.iD, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+                e.iD, e.nome, e.ObterNumeroSerie(), e.Fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
             );
         }
 

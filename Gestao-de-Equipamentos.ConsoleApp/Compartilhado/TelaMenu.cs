@@ -10,6 +10,7 @@ public static class TelaMenu
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("1 - Acessar o menu de Equipamentos");
         Console.WriteLine("2 - Acessar o menu de Chamados");
+        Console.WriteLine("3 - Acessar o menu de Fabricantes");
         Console.WriteLine("--------------------------------------------");
         Console.Write("Digite uma opção: ");
     }

@@ -4,6 +4,7 @@ class GeradorIds
 {
     public static int idEquipamentos = 0;
     public static int idChamados = 0;
+    public static int idFabricantes = 0;
     public static int GerarIdEquipamento()
     {
         idEquipamentos++;
@@ -16,5 +17,12 @@ class GeradorIds
         idChamados++;
 
         return idChamados;
+    }
+
+    public static int GerarIdFabricante()
+    {
+      idFabricantes++;
+
+       return idFabricantes;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
 using Gestao_de_Equipamentos.ConsoleApp.ModuloChamado;
 using Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
+using Gestao_de_Equipamentos.ConsoleApp.ModuloFabricante;
 
 namespace Gestao_de_Equipamentos.ConsoleApp
 {
@@ -8,9 +9,15 @@ namespace Gestao_de_Equipamentos.ConsoleApp
     {
         static void Main(string[] args)
         {
-            TelaEquipamento telaEquipamento = new TelaEquipamento();
+            TelaFabricante telaFabricante = new TelaFabricante();
+
+            RepositorioFabricante repositoriofabricante = telaFabricante.repositorioFabricante;
+            TelaEquipamento telaEquipamento = new TelaEquipamento(repositoriofabricante);
+
             RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
             TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
+
+
 
             while (true)
             {
@@ -21,11 +28,27 @@ namespace Gestao_de_Equipamentos.ConsoleApp
                     case "1": MenuEquipamentos(telaEquipamento); break;
 
                     case "2": MenuChamados(telaChamado); break;
-                    default:
-                        Console.WriteLine("Saindo do programa...");
-                        return;
+
+                    case "3": MenuFabricante(telaFabricante); break;
 
                 }
+            }
+        }
+
+        private static void MenuFabricante(TelaFabricante telaFabricante)
+        {
+            string opcaoEscolhida = telaFabricante.ApresentarMenu();
+            switch(opcaoEscolhida)
+            {
+                case "1": telaFabricante.CadastrarFabricante(); break;
+
+                case "2": telaFabricante.EditarFabricante(); break;
+
+                case "3": telaFabricante.ExcluirFabricante(); break;
+
+                case "4": telaFabricante.VisualizarFabricantes(true); break;
+                
+                default: break;
             }
         }
 

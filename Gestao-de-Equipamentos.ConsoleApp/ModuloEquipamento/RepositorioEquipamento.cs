@@ -1,5 +1,4 @@
-﻿
-using Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
+﻿using Gestao_de_Equipamentos.ConsoleApp.Compartilhado;
 
 namespace Gestao_de_Equipamentos.ConsoleApp.ModuloEquipamento;
 
@@ -24,7 +23,7 @@ class RepositorioEquipamento
             else if (equipamentos[i].iD == idEquipamento)
             {
                 equipamentos[i].nome = equipamentoEditado.nome;
-                equipamentos[i].fabricante = equipamentoEditado.fabricante;
+                equipamentos[i].Fabricante = equipamentoEditado.Fabricante;
                 equipamentos[i].precoAquisicao = equipamentoEditado.precoAquisicao;
                 equipamentos[i].dataFabricacao = equipamentoEditado.dataFabricacao;
 
